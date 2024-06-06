@@ -1,8 +1,11 @@
-td,img{
-    height: 30px;
-    width: 30px;
+img{
+    height: 80%;
+    width: 80%;
 }
 td{
+    height: 35px;
+    width: 35px;
+
     border: 1px solid black;
     line-height: 30px;
     font-size: 30px;

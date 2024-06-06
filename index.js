@@ -1,6 +1,6 @@
 window.onload=start;
 
-var R=6,C=6;
+var R=50,C=50;
 var movimenti=[{move:"ArrowUp",cord:[-1,0]},
                 {move:"ArrowLeft",cord:[0,-1]},
                 {move:"ArrowDown",cord:[1,0]},
@@ -30,6 +30,8 @@ function start(){
     document.querySelector(`table tr:nth-child(${R}) td:nth-child(${C})`).style.backgroundColor="red";    
 }
 function victory(){
+    document.onkeydown="";
+
     console.log("entrato")
     let main=document.querySelector("main");
      main.style.opacity="0.3"
@@ -41,7 +43,8 @@ function victory(){
     article.style.zIndex="1"
 
     document.querySelector("body").insertBefore(article,main)
-
+    console.log(article.children)
+    article.children[1].focus()
 }
 function applicareStileLabirinto()
 {
@@ -99,9 +102,7 @@ function controller(event){
 function generaLabirinto(){
     for(let i=0;i<R*C-1;i++){
         esploraCella()
-    }
-    // posizione sprite
-   
+    }   
     
 }
 
@@ -131,7 +132,6 @@ function esploraCella(){
     td=document.querySelector(`table tr:nth-child(${i+1}) td:nth-child(${j+1})`)
         td.setAttribute("linked","")
         td.setAttribute(reversKey,"")
-        if(td.innerHTML=="") td.innerHTML=arrow
         i+=movimenti[ms].cord[0]
         j+=movimenti[ms].cord[1]
         

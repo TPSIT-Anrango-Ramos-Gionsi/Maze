@@ -1,6 +1,6 @@
 window.onload=start;
 
-var R=10,C=10;
+var R=6,C=6;
 var movimenti=[{move:"ArrowUp",cord:[-1,0]},
                 {move:"ArrowLeft",cord:[0,-1]},
                 {move:"ArrowDown",cord:[1,0]},
@@ -8,13 +8,41 @@ var movimenti=[{move:"ArrowUp",cord:[-1,0]},
                 ]
 
 var stack=[[0,0]]
-
+var packMan, coordinates=[];
 function start(){
     document.onkeydown=controller;
+    
     generaTable();
     generaLabirinto();
-    applicareStileLabirinto()
-    }
+    applicareStileLabirinto();
+
+    packMan=document.createElement("img")
+    packMan.src="https://www.bing.com/th/id/OGC.04bac8bcacad5360544fbf7592f3d62e?pid=1.7&rurl=https%3a%2f%2fwww.pixilart.com%2fimages%2fart%2fe1c701520b06f3f.gif&ehk=zd0fMFnwbLaxsoDLJA4m4pG9r%2f6wvDUZbChJJcfSyos%3d"
+    
+    // document.querySelector(`table tr:nth-child(1) td:nth-child(1)`).innerHTML=packMan.outerHTML;
+//sostituire con questa soluzione nella versione finale
+   document.querySelector(`table tr:nth-child(1) td:nth-child(1)`).appendChild(packMan);
+
+
+    coordinates[0]=1
+    coordinates[1]=1
+    // document.querySelector(`table tr:nth-child(${R}) td:nth-child(${C})`).onchange=victory;    
+    document.querySelector(`table tr:nth-child(${R}) td:nth-child(${C})`).style.backgroundColor="red";    
+}
+function victory(){
+    console.log("entrato")
+    let main=document.querySelector("main");
+     main.style.opacity="0.3"
+
+    let article=document.createElement("article");
+    article.innerHTML=`Vittoria <br><a href="index.html">clicca per rigiocare</a>`
+    article.className="vittoria"
+    article.style.backgroundColor="green"
+    article.style.zIndex="1"
+
+    document.querySelector("body").insertBefore(article,main)
+
+}
 function applicareStileLabirinto()
 {
     for(let i=0;i<R;i++)
@@ -48,27 +76,24 @@ function generaTable(){
 
 }
 function controller(event){
-
     switch(event.key){
        case "ArrowUp":
-        // if(coordinates[0]>1&&matrice[coordinates[0]-1-1][coordinates[1]-1].wall==0)    coordinates[0]--;
+            //rimpiazzare coordinates con coordinateSprite (o simile)                   -->//same here
+        if(coordinates[0]>1) if(document.querySelector(`table tr:nth-child(${coordinates[0]-1}) td:nth-child(${coordinates[1]})`).attributes["arrowup"]!=undefined)    coordinates[0]--;
        break;
        case "ArrowDown":
-        // if(coordinates[0]<r&&matrice[coordinates[0]-1+1][coordinates[1]-1].wall==0)    coordinates[0]++;
+        if(coordinates[0]<R) if(document.querySelector(`table tr:nth-child(${coordinates[0]+1}) td:nth-child(${coordinates[1]})`).attributes["arrowdown"]!=undefined)    coordinates[0]++;
        break;
        case "ArrowRight":
-        // if(coordinates[1]<c&&matrice[coordinates[0]-1][coordinates[1]-1+1].wall==0)    coordinates[1]++;
+        if(coordinates[1]<C) if(document.querySelector(`table tr:nth-child(${coordinates[0]}) td:nth-child(${coordinates[1]+1})`).attributes["arrowright"]!=undefined)    coordinates[1]++;
        break;
        case "ArrowLeft":
-        // if(coordinates[1]>1&&matrice[coordinates[0]-1][coordinates[1]-1-1].wall==0)    coordinates[1]--;
+        if(coordinates[1]>1) if(document.querySelector(`table tr:nth-child(${coordinates[0]}) td:nth-child(${coordinates[1]-1})`).attributes["arrowleft"]!=undefined)    coordinates[1]--;
        break;
     }
-    // document.querySelector(`table tr:nth-child(${coordinates[0]}) td:nth-child(${coordinates[1]})`).appendChild(packMan);
+    document.querySelector(`table tr:nth-child(${coordinates[0]}) td:nth-child(${coordinates[1]})`).appendChild(packMan);
     
-    // if(coordinates[0]==traguardo[0]&&coordinates[1]==traguardo[1]){
-    //     alert("vinto")
-    
-    // } 
+    if(coordinates[0]==R&&coordinates[1]==C)    victory();
 }
 
 function generaLabirinto(){
@@ -76,10 +101,7 @@ function generaLabirinto(){
         esploraCella()
     }
     // posizione sprite
-    let x=stack[stack.length-1][0]
-    let y=stack[stack.length-1][1]
-    document.querySelector(`table tr:nth-child(${x+1}) td:nth-child(${y+1})`).style.backgroundColor="red"
-    
+   
     
 }
 

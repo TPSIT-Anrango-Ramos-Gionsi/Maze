@@ -1,6 +1,6 @@
 window.onload=start;
 
-var R=50,C=50;
+var R=5,C=5;
 var movimenti=[{move:"ArrowUp",cord:[-1,0]},
                 {move:"ArrowLeft",cord:[0,-1]},
                 {move:"ArrowDown",cord:[1,0]},
@@ -9,11 +9,22 @@ var movimenti=[{move:"ArrowUp",cord:[-1,0]},
 
 var stack=[[0,0]]
 var packMan, coordinates=[];
+function corrompiLabirinto(){
+    diff=20/100
+    for(let i=0;i<(R*C)*diff;i++){
+        tdAttrs=document.querySelector(`table tr:nth-child(${Math.round(Math.random()*(R-1)+1)}) td:nth-child(${Math.round(Math.random()*(C-1)+1)})`).attributes
+        console.log(tdAttrs)
+        tdAttrs.removeNamedItem(tdAttrs[tdAttrs.length-1].name)
+    }
+}
+
 function start(){
     document.onkeydown=controller;
     
     generaTable();
     generaLabirinto();
+    // corrompiLabirinto();
+
     applicareStileLabirinto();
 
     packMan=document.createElement("img")
